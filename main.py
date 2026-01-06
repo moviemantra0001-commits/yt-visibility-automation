@@ -7,9 +7,9 @@ from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 
 VIDEO_IDS = [
-    "VIDEO_ID_1",
-    "VIDEO_ID_2",
-    "VIDEO_ID_3"
+    "YhN6kz9DvV4",
+    "DmzmgrH4PJc",
+    "hvJ786sjKFM"
 ]
 
 PUBLIC_TIME = 30 * 60     # 30 minutes
@@ -33,11 +33,19 @@ def set_visibility(youtube, video_id, status):
             "status": {"privacyStatus": status}
         }
     ).execute()
-    print(f"{datetime.now()} -> {video_id} set to {status}")
+    print(f"{datetime.now()} → {video_id} set to {status}")
 
 def main():
     youtube = get_service()
     end_time = datetime.now() + timedelta(days=TOTAL_DAYS)
 
     while datetime.now() < end_time:
-        for vid
+        for vid in VIDEO_IDS:
+            set_visibility(youtube, vid, "public")
+            time.sleep(PUBLIC_TIME)
+
+            set_visibility(youtube, vid, "unlisted")
+            time.sleep(UNLISTED_TIME)
+
+if __name__ == "__main__":
+    main()
