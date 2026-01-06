@@ -1,10 +1,9 @@
 name: YouTube Visibility Automation
 
 on:
-  schedule:
-    # Runs every 30 minutes
-    - cron: "*/30 * * * *"
   workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"
 
 jobs:
   run-script:
@@ -23,8 +22,10 @@ jobs:
         run: |
           pip install google-api-python-client google-auth google-auth-oauthlib
 
-      - name: Run visibility script
-        env:
-          CLIENT_SECRET_JSON: ${{ secrets.CLIENT_SECRET_JSON }}
+      - name: Create client_secret.json
         run: |
-          python yt_visibility_cloud.py
+          echo '${{ secrets.CLIENT_SECRET_JSON }}' > client_secret.json
+
+      - name: Run automation
+        run: |
+          python main.py
